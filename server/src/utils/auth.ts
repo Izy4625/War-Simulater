@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import {Types} from "mongoose"
-
-export const generateToken = (_id: Types.ObjectId, role:string): string => {
-    return jwt.sign({_id, role}, "Eibeshter_Hot_Mich_lib", {expiresIn: '1h'})
+import dotenv from "dotenv";
+dotenv.config()
+export const generateToken = (_id: Types.ObjectId, side:string): string => {
+    return jwt.sign({_id, side}, process.env.JWT_SECRET as string, {expiresIn: '1h'})
 }

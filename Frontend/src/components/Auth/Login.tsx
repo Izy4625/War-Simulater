@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-// import { AppDispatch, RootState } from '../../store/store';
-// import { login } from '../../store/features/authSlice';
+import { AppDispatch, RootState } from '../../store/store';
+import { loginUser } from '../../store/features/auth/authSlice';
 import { 
   Box, 
   TextField, 
@@ -37,12 +37,12 @@ const AuthLink = styled(Box)(({ theme }) => ({
 }));
 
 const Login = () => {
-  // const dispatch = useDispatch<AppDispatch>();
-  // const navigate = useNavigate();
-  // const { status, error, token } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { status, error, token } = useSelector((state: RootState) => state.auth);
 
   const [formData, setFormData] = useState({
-    username: '',
+    userName: '',
     password: ''
   });
 
@@ -55,14 +55,14 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // await dispatch(login(formData));
+    await dispatch(loginUser(formData));
   };
 
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate('/');
-  //   }
-  // }, [token, navigate]);
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [token, navigate]);
 
   return (
     <Container maxWidth="xs">
@@ -71,8 +71,8 @@ const Login = () => {
           Login
         </Typography>
 
-        {//error && <Alert severity="error" sx={{ mb: 2, width: '100%' }}>{error}</Alert>}
-}
+        {error && <Alert severity="error" sx={{ mb: 2, width: '100%' }}>{error}</Alert>}
+
 
         <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
           <TextField
@@ -80,10 +80,10 @@ const Login = () => {
             required
             fullWidth
             label="Username"
-            name="username"
+            name="userName"
             autoComplete="username"
             autoFocus
-            value={formData.username}
+            value={formData.userName}
             onChange={handleChange}
           />
           <TextField

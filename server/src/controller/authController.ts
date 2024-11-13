@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import { IUser } from "../models/userModel";
 import { generateToken } from "../utils/auth";
-import { createUser ,findUserbyName} from "../services/dbservices"
+import { createUser ,findUserbyName} from "../services/dbservice"
 
-// פונקציה להרשמה של משתמש חדש
+
 export const register = async (req: Request, res: Response) => {
     
-    const {userName,password,role} = req.body;
+    const {userName,password,organization,side} = req.body;
     try {
         
-        const user = await createUser({userName,password,role});
+        const user = await createUser({userName,password,organization,side});
       
         // אם המשתמש הוא מנהל תייצר לו טוקן
         if (user) {
@@ -40,14 +40,10 @@ export const login = async (req: Request, res: Response) => {
          return;
     };
 
-    // לעדכן מתי נכנס
-    // user.lastLogin = new Date();
-    // await user.save()
-
-    const token = generateToken(user.id, user.role)
+    const token = generateToken(user.id, user.side)
     res.cookie('token', token, {
         httpOnly:true,
         secure: false,
         maxAge: 3600000
     })
-    res.status(201).json({ message: "successfully logged in", token })}
+    res.status(201).json({ message: "successfully logged in", token ,user})}

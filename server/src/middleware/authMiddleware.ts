@@ -6,7 +6,7 @@ import {Types} from "mongoose"
 //לפני שאממש בפועל אני מגדיר אינטרפייס שיכלול משתמש
 
 export interface AuthRequest extends Request {
-    user?: { _id?: Types.ObjectId, role?: string }
+    user?: { _id?: Types.ObjectId, side?: string }
 };
 
 
@@ -37,8 +37,8 @@ export const authMiddleware = (req: AuthRequest, res: Response, next: NextFuncti
     }
 }
 
-export const managerAuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
-    if (req.user?.role !=='admin') {
+export const idfAuthMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (req.user?.side !=='admin') {
         res.status(403).json({message: "Access denied, admins only!"})
     } else {
         next()

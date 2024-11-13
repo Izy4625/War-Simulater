@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { AppDispatch, RootState } from '../../store/store';
-// import { register } from '../../store/features/authSlice';
+import { AppDispatch, RootState } from '../../store/store';
+import { registerUser } from '../../store/features/auth/authSlice';
+import organizations from "../../../organizations.json"
 import {
   Box,
+  Select, 
+  MenuItem,
   TextField,
   Button,
   Typography,
@@ -15,25 +18,28 @@ import {
 } from '@mui/material';
 
 const Register = () => {
-  // const dispatch = useDispatch<AppDispatch>();
-  // const { status, error } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const { status, error } = useSelector((state: RootState) => state.auth);
 
-  // const [formData, setFormData] = useState({
-  //   username: '',
-  //   password: '',
-  //   isAdmin: false
-  // });
+  const [formData, setFormData] = useState({
+    userName: '',
+    password: '',
+    organization: '',
+    location: '',
+    side: 'idf'
+  });
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData(prev => ({
-  //     ...prev,
-  //     [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value
-  //   }));
-  // };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name] : e.target.value
+    }));
+  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // await dispatch(register(formData));
+    await dispatch(registerUser(formData));
   };
 
   return (
@@ -50,8 +56,8 @@ const Register = () => {
             Register
           </Typography>
 
-         {//error && <Alert severity="error" sx={{ mb: 2, width: '100%' }}>{error}</Alert>}
-}
+         {error && <Alert severity="error" sx={{ mb: 2, width: '100%' }}>{error}</Alert>}
+
 
           <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
             <TextField
@@ -59,11 +65,11 @@ const Register = () => {
               required
               fullWidth
               label="Username"
-              name="username"
+              name="userName"
               autoComplete="username"
               autoFocus
-              // value={formData.username}
-              // onChange={handleChange}
+              value={formData.userName}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -73,21 +79,30 @@ const Register = () => {
               label="Password"
               type="password"
               autoComplete="new-password"
-              // value={formData.password}
-              // onChange={handleChange}
+              value={formData.password}
+              onChange={handleChange}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="isAdmin"
-                  // checked={formData.isAdmin}
-                  // onChange={handleChange}
-                  color="primary"
-                />
-              }
-              label="Register as Admin"
-              sx={{ mt: 1 }}
-            />
+              <Select
+        value={formData.organization}
+        onChange={(e)=>{setFormData(prev=>({
+            ...prev,
+           organization : e.target.value
+           
+        }));
+      }}
+        sx={{
+       
+          width: 290,
+          height: 50,
+        }}
+      >
+         {organizations.map((x)=>(
+          <MenuItem  value={formData.organization} key={x.name}>{x.name}</MenuItem>
+         ))}
+     
+      </Select>
+             
+        
             <Button
               type="submit"
               fullWidth

@@ -16,3 +16,12 @@ export const createUser = async (user: Partial<IUser>): Promise<IUser | null> =>
     return newUser   
     
 }
+export const findUserbyName = async (name: string): Promise<IUser | null> => {
+    const currentUser = await User.findOne({ userName: name });
+    console.log(currentUser);
+    
+    if(currentUser)return currentUser;
+    return null
+  
+
+}

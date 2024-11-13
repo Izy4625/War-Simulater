@@ -8,8 +8,8 @@ export interface IUser extends Document  {
         userName: string,
         password?: string,
         organization: string,
-        location: string,
-        resources: [{name:string,amount:number}]
+        location?: string,
+        resources?: [{name:string,amount:number}]
         side: "idf" | "enemy",
         comparePassword(userPassword: string): Promise<boolean>
            
