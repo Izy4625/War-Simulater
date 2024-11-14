@@ -86,7 +86,7 @@ const Register = () => {
         value={formData.organization}
         onChange={(e)=>{setFormData(prev=>({
             ...prev,
-           organization : e.target.value
+           organizations: e.target.value
            
         }));
       }}

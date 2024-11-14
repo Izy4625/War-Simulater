@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
-        <Navbar />
+        {/* <Navbar /> */}
         <Container>
           <Routes>
             <Route 

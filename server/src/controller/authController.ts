@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { IUser } from "../models/userModel";
 import { generateToken } from "../utils/auth";
 import { createUser ,findUserbyName} from "../services/dbservice"
-
+import {io} from "../app"
 
 export const register = async (req: Request, res: Response) => {
     
