@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { Socket } from "socket.io-client";
-import useSocket from "../../hooks/useSocket";
-
+import store from "../../store";
+import {useSocket} from "../../../hooks/useSocket";
+import { io, Socket } from "socket.io-client";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+const SERVER_URL = 'http://localhost:4000';
 interface SocketStateType {
     socket: Socket | null,
     status: string | null
@@ -10,53 +13,56 @@ interface SocketStateType {
     rocket: string | null,
     message: string | null,
 }
+const {socketInstance }= useSocket();
 
 
 export const sendRocket = createAsyncThunk('attack/post', async (attck: { name: string, room: string, rocket: string }): Promise<string | null> => {
     console.log("in side sendRocket user");
-    const { socket, connected } = useSocket();
-    if (!socket || !connected) return null
-    const res = await socket.emit('attack', { attck: attck }, (response: string) => {
+   
+   
+    const res = await socketInstance.emit('attack', { attck: attck }, (response: string) => {
         console.log("this is the response", response);
         return response
     });
 
-    return res
+    return res.toString()
 })
 export const interceptRocket = createAsyncThunk('intercept/post', async (defend: { status: string}): Promise<string | null> => {
     console.log("in side defendRocket user");
-    const { socket, connected } = useSocket();
-    if (!socket || !connected) return null
-    const res = await socket.emit('defend', { defend: defend }, (response: string) => {
-        console.log("this is the response", response);
-        return response
+ 
+    return new Promise((resolve, reject) => {
+        socketInstance.emit('defend', { defend: defend }, (response: string) => {
+            console.log("this is the response", response);
+            resolve(response);
+        });
     });
-
-    return res
+})      
     
-})
-export const joinRoom =  createAsyncThunk('join/post', async (join: { name: string, room: string}): Promise<string | null> => {
-    console.log("in side joinRoom user");
-    const { socket, connected } = useSocket();
-    if (!socket || !connected) return null
-    const res = await socket.emit('join', { join: join }, (response: string) => {
-        console.log("this is the response", response);
-        return response
-    });
 
-    return res
+export const joinRoom =  createAsyncThunk('join/post', async (room: string): Promise<string> => {
+    console.log("in side joinRoom user");
+ 
+
+const res =  socketInstance.emit('join', room, (response: string) => {
+            console.log("this is the response", response);
+            return response
+        });
+    return res.toString();      
 })
 
 export const socketSlice = createSlice({
+
     name: "socket",
     initialState: {
-        socket: null,
+        socket: io(SERVER_URL),
         status: "idle",
         error: null,
         connected: true,
         rocket: null
     } as SocketStateType,
-    reducers: {},
+    reducers: {
+        
+    },
     extraReducers: (builder) => {
         builder
         .addCase(sendRocket.fulfilled, (state, action) => {
@@ -79,11 +85,17 @@ export const socketSlice = createSlice({
         })
        .addCase(joinRoom.fulfilled, (state, action) => {
             state.message = action.payload
+            console.log('inside fulfilled');
+            
         })
         .addCase(joinRoom.pending, (state) => {
+            console.log("inside pending");
+            
             state.message = "pending"
         })
         .addCase(joinRoom.rejected, (state) => {
+            console.log("rejected to coonect to room");
+            
             state.message = "failed to join"
         })  
 

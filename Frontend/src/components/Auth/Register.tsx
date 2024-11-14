@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { registerUser } from '../../store/features/auth/authSlice';
 import organizations from "../../../organizations.json"
+import SelectChangeEvent from '@mui/material/SelectChangeEvent';
 import {
   Box,
   Select, 
@@ -35,6 +36,12 @@ const Register = () => {
       [e.target.name] : e.target.value
     }));
   };
+  const handleForm = (e: SelectChangeEvent<string>) => {
+    setFormData(prev => ({
+      ...prev,
+      organization : e.target.value as string
+    }));
+  }
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,12 +91,7 @@ const Register = () => {
             />
               <Select
         value={formData.organization}
-        onChange={(e)=>{setFormData(prev=>({
-            ...prev,
-           organizations: e.target.value
-           
-        }));
-      }}
+        onChange={(e)=>handleForm(e)}
         sx={{
        
           width: 290,
@@ -97,7 +99,7 @@ const Register = () => {
         }}
       >
          {organizations.map((x)=>(
-          <MenuItem  value={formData.organization} key={x.name}>{x.name}</MenuItem>
+          <MenuItem  value={formData.organization} key={x.name}>{x.name}  </MenuItem>
          ))}
      
       </Select>

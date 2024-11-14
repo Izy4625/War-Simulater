@@ -18,14 +18,14 @@ interface AuthStateType {
   }
 
 
-export const registerUser = createAsyncThunk('auth/post',async(user:{userName:string,password:string}):Promise<User | undefined>=>{
+export const registerUser = createAsyncThunk('auth/post',async(user:{userName:string,password:string}):Promise<User>=>{
     console.log("in side register user");
     const response = await axios.post("http://localhost:4000/auth/register",user);
     console.log(response.data);
     return response.data;
     
 })
-export const loginUser = createAsyncThunk('auth/login',async(user:{userName:string,password:string}):Promise<responseType | undefined>=>{
+export const loginUser = createAsyncThunk('auth/login',async(user:{userName:string,password:string}):Promise<User>=>{
     console.log("in side login user");
     const response = await axios.post("http://localhost:4000/auth/login",user);
     const token = response.data.token;
@@ -71,20 +71,11 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = "succeeded";
        console.log(action.payload);
-       console.log(action.payload?.token);
-       console.log(action.payload?.user);
-       state.error = null;
-       if(action.payload){
-       state.token = action.payload?.token
-       state.user = action.payload?.user
+      state.user = action.payload
+      })
        
 
 
-          console.log('action payload is empty');
-         const string = JSON.stringify(action.payload.user);
-          localStorage.setItem('user', string);
-       }
-      })
       .addCase(loginUser.rejected, (state) => {
         state.status = "failed";
         state.error = "can not fetch posts";
