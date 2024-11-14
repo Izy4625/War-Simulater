@@ -6,8 +6,7 @@ export function useSocket() {
    
     const [socket, setSocket] = useState<Socket | null>(null);
     const [connected, setConnected] = useState(false);
-    const [votes,setVotes] = useState<number[]>([])
-      socket?.emit('sendResources',6);
+ 
 
     useEffect(() => {
       const socketInstance = io(SERVER_URL);

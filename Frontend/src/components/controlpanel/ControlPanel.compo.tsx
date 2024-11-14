@@ -7,21 +7,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ResponsiveAppBar from './Heder.compo';
-import { useSelector, UseSelector } from 'react-redux';
+import { useSelector, UseSelector,useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { RootState } from '../../store/store';
 const SERVER_URL = 'http://localhost:4000';
 import { useSocket } from '../../hooks/useSocket';
-
-
-
-
-
-
-
-
-
+import { AppDispatch } from '../../store/store';
+import { joinRoom } from '../../store/features/socket/socketSlice';
 
 
 
@@ -45,86 +38,21 @@ const rows = [
 ];
 
 export default function BasicTable() {
-  const { socket, connected } = useSocket();
-  console.log(socket);
-  console.log(connected);
   
+ 
+  const dispatch = useDispatch<AppDispatch>();
   
   const value = useSelector((state: RootState) => state.auth.user);
-
-  const [location, setLocation] = useState('');
-  useEffect(() => {
- console.log('inside useEffect');
- 
-    if (!socket) return;
-    if (!value) return;
-    setLocation('North');
-    socket.emit('join', { name: value.userName, room: location }, (error: string) => {
-      if (error) {
-        alert(error);
-        console.log('inside join function');
-
-      }
-      console.log('inside useEffect');
+  function handleRoom() {
+    if (value) {
+      dispatch(joinRoom( { name: value.userName, room: value.location }));
+  }
   
-
-
-    });
-
-  }, []);
-  // function soc(){
-  //   socket?.on("voteupdate",(votesnew)=>{
-
-  //   console.log(votesnew);
-
-  // })
-  // socket?.on("launchupdate",(launchesnew)=>{
-  //   console.log('lsda',launchesnew);
-  // })
-  // socket?.on('res',(resources)=>{
-  //   console.log("resources","this is resources",resources);
-
-  // })
-  // socket?.on('getmess', (message) => {
-  //   console.log('inside gert mess', message);
-
-  // })
-  // socket?.on('hey', (message) => {
-  //   console.log('inside hey mess', message);
-  //   socket?.emit('sendResources',6, ()=> {
-  //        console.log('sent'  , 6, 'to the server');
-
-  //   });
-  // })
-
-  // socket?.on('conn', () => {
-  //   console.log("conneted");
-  // })
-  // socket?.emit('join', { name: value?.userName, 
-  //   room: location }, (error: string) => {
-  //   if (error) {
-  //     alert(error);
-  //     console.log('inside join function');
-
-  //   }});
-
- 
-
-  // soc();
-  // useEffect(() => {
-
-  //   console.log(value);
-
-  // }, [socket]);
-  socket.on("message", (message) => {
-    console.log('inside gert mess', message);
-  })
-
   return (
     <>
       <ResponsiveAppBar />
-      <button onClick={() => { socket?.emit('hey', 'hello') }}>send Hello</button>
-      <button onClick={() => { socket?.emit('join', { name: 'sara', room: location }) }} >join Room</button>
+      {/* <button onClick={() => { socket?.emit('hey', 'hello') }}>send Hello</button> */}
+      <button onClick={handleRoom} >join Room</button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
