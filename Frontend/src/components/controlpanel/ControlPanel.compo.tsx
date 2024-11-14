@@ -15,12 +15,18 @@ const SERVER_URL = 'http://localhost:4000';
 import { useSocket } from '../../hooks/useSocket';
 import { AppDispatch } from '../../store/store';
 import { joinRoom ,sendRocket} from '../../store/features/socket/socketSlice';
+import{ missil}  from '../../types/index';
+import missile from '../../../missile.json';
 
-
-
+interface data{
+  attack: {
+    rocket: string, 
+    name: string
+  }
+}
 
 export default function BasicTable() {
-  const [rockets, setRockets] = useState<>([]);
+  const [rockets, setRockets] = useState<string[]>([]);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -32,21 +38,16 @@ export default function BasicTable() {
   })
   socketInstance.on("someevent", (data: string) => {console.log(data);})  
   console.log(value);
-  socketInstance.on("rocket", (data: {rocket:string,room:string}) => {
-
+  socketInstance.on("rocket", (data: data) => {
+    setRockets([...rockets,data.attack.rocket]);
     console.log(data);})
-  useEffect(() => {
-    
+    const missiles:missil[] = []
+    missile.forEach(element => {
+       if(rockets.includes(element.name)){
+        missiles.push(element)
+       }
+    });
 
-  socketInstance.on('message', (data: string) => {
-    console.log(data);
-  });
- 
-},[]);
-
-
-      
-    
 
     return (
       <>
@@ -65,18 +66,18 @@ export default function BasicTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {missiles.map((missile) => (
                 <TableRow
-                  key={row.name}
+                  key={missile.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {missile.name}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+                  <TableCell align="right">{missile.description}</TableCell>
+                  <TableCell align="right">{missile.speed}</TableCell>
+                  <TableCell align="right">{missile.intercepts}</TableCell>
+                  <TableCell align="right">{missile.price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
