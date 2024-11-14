@@ -29,7 +29,8 @@ io.on('connection', (socket) => {
     //  console.log(user)
      console.log(room)
     socket.join(room);
-
+    console.log(room)
+    io.to(room).emit("someevent", "a new user joined our room");
     socket.emit('message', { user: 'admin', text: ` welcome to room ${room}.` });
     socket.broadcast.to(room).emit('message', { user: 'admin', text: ` has joined!` });
     console.log('emit roomData')
@@ -39,8 +40,9 @@ io.on('connection', (socket) => {
   })
   socket.on('sendMessage', (message:string) => {  console.log(message); }) 
  
-  socket.on('attack', (message: { name: string, room: string ,rocket: string}) => {
+  socket.on('attack', (message: { room: string ,rocket: string}) => {
     console.log(message);
+    io.emit('rocket',message);
   })
 
   

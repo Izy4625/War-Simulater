@@ -72,10 +72,13 @@ const userSlice = createSlice({
         state.status = "succeeded";
        console.log(action.payload);
       state.user = action.payload
-      })
-       
 
 
+          console.log('action payload is empty');
+         const string = JSON.stringify(action.payload);
+          localStorage.setItem('user', string);
+       }
+      )
       .addCase(loginUser.rejected, (state) => {
         state.status = "failed";
         state.error = "can not fetch posts";

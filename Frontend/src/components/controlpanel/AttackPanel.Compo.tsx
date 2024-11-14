@@ -11,49 +11,43 @@ import { useSelector, UseSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { RootState } from '../../store/store';
-const SERVER_URL = 'http://localhost:4000';
+import{ User}  from '../../types/index';
+
+
 import { useSocket } from '../../hooks/useSocket';
 import { AppDispatch } from '../../store/store';
 import { joinRoom ,sendRocket} from '../../store/features/socket/socketSlice';
 
+import missile from '../../../missile.json';
 
 
+export default function AttackTable() {
+  const [users, setUser] = useState<User | null>(null);
 
-export default function BasicTable() {
-  const [rockets, setRockets] = useState<>([]);
 
+  useEffect(() => {
+    const newuser = localStorage.getItem('user');
+    console.log(newuser);
+    setUser(JSON.parse(newuser!));
+  },[])
+
+//   console.log(user);
+
+  const missiles = missile.filter((missile) => users?.resources?.some((resource) => resource.name === missile.name));
+  console.log(missiles);
+  
   const dispatch = useDispatch<AppDispatch>();
 
-  const value = useSelector((state: RootState) => state.auth.user);
+//   const value = useSelector((state: RootState) => state.auth.user);
   const {socketInstance }= useSocket();
-  socketInstance.emit('sendMessage', { message: 'hello' });
-  socketInstance.on('roomData'  , (data: string) => {
-    console.log(data);
-  })
-  socketInstance.on("someevent", (data: string) => {console.log(data);})  
-  console.log(value);
-  socketInstance.on("rocket", (data: {rocket:string,room:string}) => {
-
-    console.log(data);})
-  useEffect(() => {
-    
-
-  socketInstance.on('message', (data: string) => {
-    console.log(data);
-  });
- 
-},[]);
-
-
-      
-    
+  
 
     return (
       <>
         <ResponsiveAppBar />
       
-        <button onClick={()=>{ dispatch(joinRoom( 'north' ))}} >join Room</button>
-        <button onClick={()=>{ dispatch(sendRocket({ name: 'sara', room: 'north', rocket: 'north' }))}} >send Rocket</button>
+      
+        <button onClick={()=>{ dispatch(sendRocket({  room: 'north', rocket: missiles[0].name,  }))}} >send Rocket</button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -65,18 +59,18 @@ export default function BasicTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {missiles.map((missile) => (
                 <TableRow
-                  key={row.name}
+                  key={missile.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {missile.name}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
+                  <TableCell align="right">{missile.description}</TableCell>
+                  <TableCell align="right">{missile.speed}</TableCell>
+                  <TableCell align="right">{missile.intercepts}</TableCell>
+                  <TableCell align="right">{missile.price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

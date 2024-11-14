@@ -16,11 +16,11 @@ interface SocketStateType {
 const {socketInstance }= useSocket();
 
 
-export const sendRocket = createAsyncThunk('attack/post', async (attck: { name: string, room: string, rocket: string }): Promise<string | null> => {
+export const sendRocket = createAsyncThunk('attack/post', async ( attack: {room: string ,rocket: string}): Promise<string | null> => {
     console.log("in side sendRocket user");
    
    
-    const res = await socketInstance.emit('attack', { attck: attck }, (response: string) => {
+    const res = await socketInstance.emit('attack', {attack }, (response: string) => {
         console.log("this is the response", response);
         return response
     });

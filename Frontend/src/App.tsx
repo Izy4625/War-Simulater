@@ -9,6 +9,7 @@ import { Box, Container } from '@mui/material';
 import Register from './components/Auth/Register'
 import Login from "./components/Auth/Login"
 import BasicTable from './components/controlpanel/ControlPanel.compo';
+import AttackTable from './components/controlpanel/AttackPanel.Compo';
 function App() {
 
 
@@ -29,6 +30,10 @@ function App() {
              <Route 
               path="/controlPanel" 
               element={<BasicTable /> } 
+            />
+            <Route 
+              path="/attackPanel" 
+              element={<AttackTable /> } 
             />
     </Routes>
         </Container>
