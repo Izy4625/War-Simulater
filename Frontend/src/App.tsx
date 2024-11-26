@@ -20,7 +20,7 @@ function App() {
         <Container>
           <Routes>
             <Route 
-              path="/login" 
+              path="/" 
               element={  <Login /> } 
             />
              <Route 

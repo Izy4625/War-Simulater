@@ -48,7 +48,7 @@ const Navbar = () => {
         >
           <HowToVoteIcon sx={{ mr: 2 }} />
           <Typography variant="h6" component="div">
-            Programming Language Vote
+            Log in
           </Typography>
         </Box>
 
@@ -60,11 +60,22 @@ const Navbar = () => {
               <Button 
                 color="inherit" 
                 startIcon={<BarChartIcon />}
-                onClick={() => navigate('/stats')}
+                onClick={() => navigate('/controlPanel')}
               >
-                Stats
+                Contorl Panel
               </Button>
+              </Box>
             {/* )} */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            {/* {user.isAdmin && ( */}
+              <Button 
+                color="inherit" 
+                startIcon={<BarChartIcon />}
+                onClick={() => navigate('/attackPanel')}
+              >
+                Attack Panel
+              </Button>
+              
             
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <IconButton

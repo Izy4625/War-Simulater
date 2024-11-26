@@ -8,6 +8,7 @@ export const createUser = async (user: Partial<IUser>): Promise<IUser | null> =>
         name: "Badr-1",
         amount: 20
       },]
+    
     const newUser = await User.create(user);
     console.log(newUser);
     

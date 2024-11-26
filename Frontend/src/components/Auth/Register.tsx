@@ -25,7 +25,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     userName: '',
     password: '',
-    organization: '',
+    organization: 'IDF - Center',
     location: '',
     side: 'idf'
   });
@@ -37,6 +37,7 @@ const Register = () => {
     }));
   };
   const handleForm = (e: SelectChangeEvent<string>) => {
+    console.log(e.target.value);
     setFormData(prev => ({
       ...prev,
       organization : e.target.value as string
@@ -91,7 +92,7 @@ const Register = () => {
             />
               <Select
         value={formData.organization}
-        onChange={(e)=>handleForm(e)}
+        onChangeCapture={(e)=>handleForm(e)}
         sx={{
        
           width: 290,
@@ -99,7 +100,7 @@ const Register = () => {
         }}
       >
          {organizations.map((x)=>(
-          <MenuItem  value={formData.organization} key={x.name}>{x.name}  </MenuItem>
+          <MenuItem   key={x.name}>{x.name}  </MenuItem>
          ))}
      
       </Select>

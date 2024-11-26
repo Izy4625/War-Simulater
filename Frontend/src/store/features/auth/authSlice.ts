@@ -62,7 +62,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state) => {
         state.status = "failed";
-        state.error = "can not fetch posts";
+        state.error = "couldnt register user";
       })
       .addCase(loginUser.pending, (state) => {
         state.status = "loading";
@@ -81,7 +81,7 @@ const userSlice = createSlice({
       )
       .addCase(loginUser.rejected, (state) => {
         state.status = "failed";
-        state.error = "can not fetch posts";
+        state.error = "can not login";
       });
   },
 });

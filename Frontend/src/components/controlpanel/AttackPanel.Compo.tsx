@@ -24,7 +24,7 @@ import missile from '../../../missile.json';
 export default function AttackTable() {
   const [users, setUser] = useState<User | null>(null);
   const {socketInstance }= useSocket();
-  socketInstance.on('defen', (data: string) => {
+  socketInstance.on('defend', (data: string) => {
     console.log(data);
   })
 
@@ -42,7 +42,7 @@ export default function AttackTable() {
   const dispatch = useDispatch<AppDispatch>();
 
 //   const value = useSelector((state: RootState) => state.auth.user);
-  const {socketInstance }= useSocket();
+ 
   
 
     return (

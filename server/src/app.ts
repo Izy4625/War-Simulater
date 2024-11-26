@@ -11,6 +11,7 @@ import { log } from "console";
 import socketsFunction from './socket/socket.io'
 import { addUser, removeUser, getUser, getUsersInRoom } from "./socket/users";
 const app = express();
+
 const httpServer = createServer(app);
 const allowedOrigin = 'http://localhost:5173'; // Your frontend URL
 export const io = new Server(httpServer, { cors: { origin: "*", methods: "*", credentials: true } });
@@ -58,7 +59,7 @@ io.on('connection', (socket) => {
 app.use(cors(
   { origin: allowedOrigin, methods: "*", credentials: true }
 ));
-
+dotenv.config()
 // app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
