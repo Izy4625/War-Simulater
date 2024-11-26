@@ -7,16 +7,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ResponsiveAppBar from './Heder.compo';
-import { useSelector, UseSelector, useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
-import { RootState } from '../../store/store';
+
 import{ User}  from '../../types/index';
 
 
 import { useSocket } from '../../hooks/useSocket';
 import { AppDispatch } from '../../store/store';
-import { joinRoom ,sendRocket} from '../../store/features/socket/socketSlice';
+import {  sendRocket} from '../../store/features/socket/socketSlice';
 
 import missile from '../../../missile.json';
 
@@ -34,14 +33,13 @@ export default function AttackTable() {
     setUser(JSON.parse(newuser!));
   },[])
 
-//   console.log(user);
+
 
   const missiles = missile.filter((missile) => users?.resources?.some((resource) => resource.name === missile.name));
   console.log(missiles);
   
   const dispatch = useDispatch<AppDispatch>();
 
-//   const value = useSelector((state: RootState) => state.auth.user);
  
   
 

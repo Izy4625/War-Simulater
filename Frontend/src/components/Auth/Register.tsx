@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { registerUser } from '../../store/features/auth/authSlice';
 import organizations from "../../../organizations.json"
-import SelectChangeEvent from '@mui/material/SelectChangeEvent';
+
 import {
   Box,
   Select, 
@@ -14,8 +14,7 @@ import {
   Container,
   Alert,
   Paper,
-  FormControlLabel,
-  Checkbox
+
 } from '@mui/material';
 
 const Register = () => {
@@ -36,13 +35,7 @@ const Register = () => {
       [e.target.name] : e.target.value
     }));
   };
-  const handleForm = (e: SelectChangeEvent<string>) => {
-    console.log(e.target.value);
-    setFormData(prev => ({
-      ...prev,
-      organization : e.target.value as string
-    }));
-  }
+
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,7 +85,7 @@ const Register = () => {
             />
               <Select
         value={formData.organization}
-        onChangeCapture={(e)=>handleForm(e)}
+   
         sx={{
        
           width: 290,

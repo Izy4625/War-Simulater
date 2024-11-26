@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk,  PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {User} from "../../../types/index"
 import { RootState } from "../../store"
-import { act } from "react";
+
 
 interface AuthStateType {
     user: User|null;
@@ -11,11 +11,11 @@ interface AuthStateType {
     token: string | null;
     
   }
-  interface responseType {
-    message?: string;
-    token: string|null;
-    user: User|null;
-  }
+  // interface responseType {
+  //   message?: string;
+  //   token: string|null;
+  //   user: User|null;
+  // }
 
 
 export const registerUser = createAsyncThunk('auth/post',async(user:{userName:string,password:string}):Promise<User>=>{
@@ -55,7 +55,7 @@ const userSlice = createSlice({
         state.status = "loading";
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         state.status = "succeeded";
 
         // if (action.payload) state.user = action.payload;

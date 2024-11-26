@@ -1,9 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Navbar from './components/Layout/Navbar';
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Box, Container } from '@mui/material';
 import Register from './components/Auth/Register'
@@ -16,7 +12,7 @@ function App() {
   return (
     <Router>
       <Box sx={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
-        {/* <Navbar /> */}
+      
         <Container>
           <Routes>
             <Route 

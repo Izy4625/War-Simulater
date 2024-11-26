@@ -7,11 +7,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ResponsiveAppBar from './Heder.compo';
-import { useSelector, UseSelector, useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
+import { useSelector,  useDispatch } from 'react-redux';
+import { useState } from 'react';
+
 import { RootState } from '../../store/store';
-const SERVER_URL = 'http://localhost:4000';
+
 import { useSocket } from '../../hooks/useSocket';
 import { AppDispatch } from '../../store/store';
 import { joinRoom ,interceptRocket} from '../../store/features/socket/socketSlice';
