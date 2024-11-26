@@ -26,15 +26,20 @@ export const sendRocket = createAsyncThunk('attack/post', async ( attack: {room:
 
     return res.toString()
 })
-export const interceptRocket = createAsyncThunk('intercept/post', async ( status: string): Promise<string | null> => {
+export const interceptRocket = createAsyncThunk('intercept/post', async ( status: string): Promise<string> => {
     console.log("in side defendRocket user");
 
-        socketInstance.emit('defend', { status}, (response: string) => {
-            console.log("this is the response", response);
-        
-            return response
+
+    const res =  socketInstance.emit('defend', { status}, (response: string) => {
+        console.log("this is the response", response);
+        return response
     });
-})      
+return res.toString();      
+})
+
+       
+     
+   
     
 
 export const joinRoom =  createAsyncThunk('join/post', async (room: string): Promise<string> => {
