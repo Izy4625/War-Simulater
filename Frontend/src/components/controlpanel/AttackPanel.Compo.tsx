@@ -23,7 +23,10 @@ import missile from '../../../missile.json';
 
 export default function AttackTable() {
   const [users, setUser] = useState<User | null>(null);
-
+  const {socketInstance }= useSocket();
+  socketInstance.on('defen', (data: string) => {
+    console.log(data);
+  })
 
   useEffect(() => {
     const newuser = localStorage.getItem('user');

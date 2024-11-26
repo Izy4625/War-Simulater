@@ -44,6 +44,10 @@ io.on('connection', (socket) => {
     console.log(message);
     io.emit('rocket',message);
   })
+  socket.on('defend',(status:string)=>{
+    console.log(status)
+    io.emit('defend',status)
+  } )
 
   
 })

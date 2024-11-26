@@ -27,14 +27,13 @@ export const sendRocket = createAsyncThunk('attack/post', async ( attack: {room:
 
     return res.toString()
 })
-export const interceptRocket = createAsyncThunk('intercept/post', async (defend: { status: string}): Promise<string | null> => {
+export const interceptRocket = createAsyncThunk('intercept/post', async ( status: string): Promise<string | null> => {
     console.log("in side defendRocket user");
- 
-    return new Promise((resolve, reject) => {
-        socketInstance.emit('defend', { defend: defend }, (response: string) => {
+
+        socketInstance.emit('defend', { status}, (response: string) => {
             console.log("this is the response", response);
-            resolve(response);
-        });
+        
+            return response
     });
 })      
     

@@ -14,7 +14,7 @@ import { RootState } from '../../store/store';
 const SERVER_URL = 'http://localhost:4000';
 import { useSocket } from '../../hooks/useSocket';
 import { AppDispatch } from '../../store/store';
-import { joinRoom ,sendRocket} from '../../store/features/socket/socketSlice';
+import { joinRoom ,interceptRocket} from '../../store/features/socket/socketSlice';
 import{ missil}  from '../../types/index';
 import missile from '../../../missile.json';
 
@@ -54,7 +54,7 @@ export default function BasicTable() {
         <ResponsiveAppBar />
       
         <button onClick={()=>{ dispatch(joinRoom( 'north' ))}} >join Room</button>
-        <button onClick={()=>{ dispatch(sendRocket({ name: 'sara', room: 'north', rocket: 'north' }))}} >send Rocket</button>
+       <button onClick={()=>{ dispatch(interceptRocket('intercepted'))}} >intercept Rocket</button>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
