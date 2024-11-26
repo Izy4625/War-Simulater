@@ -1,9 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import store from "../../store";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import {useSocket} from "../../../hooks/useSocket";
 import { io, Socket } from "socket.io-client";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+
 const SERVER_URL = 'http://localhost:4000';
 interface SocketStateType {
     socket: Socket | null,
